@@ -55,10 +55,17 @@ facilities21_tab %>%
 #-----------------------------------------------------------------
 # merge with data mart and fall enrollment
 # read datamart and fall enrollment data
-datamart21<- as.data.frame(read_excel("Datamart21Fall.xlsx"))
-str(datamart21)
-registar21<- as.data.frame(read_excel("Registar21Fall.xlsx"))
-str(registar21)
+datamart21<- read_excel("Datamart21Fall.xlsx")
+names(datamart21)
+head(datamart21)
+df_datamart21 <- datamart21 %>% select (PC_ID, GENDER_CODE, ETHNICITY_REPORT_DESC, ADMIT_REGION, CITIZENSHIP, RESIDENT_YN, PARENTS_DEGREE, ADMIT_TYPE, TRANSFER_YN, COHORT, CLASS_LEVEL_RPT_LABEL, ACADEMIC_DEPT, CIP_CATEGORY, MAJOR_1, REG_PRIOR_CUM_GPA) %>% as.data.frame() 
+names(df_datamart21)<- tolower(names(df_datamart21))
 
-left_join(df_sss21,datamart21,by=)
+
+left_join(df_sss21,datamart21,by.x = "KEY", by.y = "KEY")
+
+
+
+registar21<- read_excel("Registar21Fall.xlsx")
+str(registar21)
 
