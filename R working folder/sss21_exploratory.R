@@ -1,11 +1,14 @@
+#
 
 
-#----------------------setting up--------------------------------
+source("set up full data.R") #run code from saved r script
+
+#--------------------------------------------------------
 setwd("~/Documents/Rprojects/student_satisfaction_survey")
-list.files()
-source("sss21_descriptive.R")  #run code from saved r script
 
-#-------------------------merge data-------------------------------
+#
+
+
 # read datamart data file and rename
 datamart21<- read_excel("Datamart21Fall.xlsx")
 names(datamart21)
@@ -16,6 +19,7 @@ names(df_datamart21)<- tolower(names(df_datamart21))
 df_sss21_full<-left_join(df_sss21,df_datamart21,by.x = "pc_id", by.y = "pc_id")
 ncol(df_sss21_full)
 ncol(df_sss21)
+
 
 # read registar data file and rename
 reg21<- read_excel("Registar21Fall.xlsx")
@@ -28,14 +32,10 @@ names(df_reg21)<- tolower(names(df_reg21))
 df_sss21_full<-left_join(df_sss21_full,df_reg21, by = "pc_id")
 ncol(df_sss21_full)
 ncol(df_sss21)
-
-
-#===========================================exploratory analysis=================================================
-#=============================================================================================
-
-#use df_sss21_full to relate newly created col [29-55] to identity items [in results to [56-71]
 names(df_sss21_full)
 
 
-#------------------------------------------------------------------------
-#
+#============================================================================================
+#=============================================================================================
+
+#use df_sss21_full to relate newly created col [29-55] to identity items [in results to [56-71]
