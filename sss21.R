@@ -1,5 +1,5 @@
 #setting up
-setwd("~/Documents/R projects/student_satisfaction_survey/data")
+setwd("~/Documents/Rprojects/student_satisfaction_survey/data")
 getwd()
 list.files()
 options("digits" = 4)   # two decimal
