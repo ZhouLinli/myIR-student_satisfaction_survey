@@ -33,7 +33,7 @@ ncol(df_sss21)
 #===========================================exploratory analysis=================================================
 #=============================================================================================
 
-#use df_sss21_full to relate newly created col [29-55] to identity items [in results to [56-71]
+#use df_sss21_full to relate newly created col [29-55] to identity items [56-71]
 names(df_sss21_full)
 
 
