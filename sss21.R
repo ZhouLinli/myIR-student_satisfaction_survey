@@ -1,33 +1,6 @@
-#setting up
-setwd("~/Documents/Rprojects/data/student_satisfaction_survey")
-getwd()
+setwd("~/Documents/Rprojects/student_satisfaction_survey")
 list.files()
-options("digits" = 4)   # two decimal
-
-#load package
-library(readxl) #for read_excel
-library(readr) #for read_csv
-library(dplyr) #for select, rename, join, etc.
-library(tidyverse) #for pipes
-library(ggplot2)
-#-----------------------------------------------------------------------------
-#read data files, initial exploration
-sss21<-read_excel("2021 SSS Raw.xlsx")
-names(sss21)
-#glimpse(sss21$`Invite Custom Field 1`)
-
-#select (and rename) variables to build separate data frames
-sss21.qual<-select(sss21, starts_with("Please explain"))
-names(sss21.qual)
-
-sss21.slct<-sss21 %>% select(contains(":Please rate")) 
-#names(sss21.slct) [1]<-"Pid"
-names(sss21.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss21.slct))
-names(sss21.slct)
-
-#revert to data frame to make variables and detect values for each variable
-df_sss21<-as.data.frame(sss21.slct)
-str(df_sss21)
+source("set up full data.R") #run code from saved r script
 
 #--------------------------------------------------------
 #go through each item [1-24]
@@ -51,21 +24,3 @@ facilities21_tab %>%
   theme(plot.title = element_text(color = "#003057", size = 12, hjust = 0.5, face="bold"))+
   labs(x = "", y = "")+
   geom_text(aes(label = cnt), vjust = 2, size = 3, color="#ffffff") #vjust=-0.5 lable up
-
-#-----------------------------------------------------------------
-# merge with data mart and fall enrollment
-# read datamart and fall enrollment data
-datamart21<- read_excel("Datamart21Fall.xlsx")
-names(datamart21)
-head(datamart21)
-df_datamart21 <- datamart21 %>% select (PC_ID, GENDER_CODE, ETHNICITY_REPORT_DESC, ADMIT_REGION, CITIZENSHIP, RESIDENT_YN, PARENTS_DEGREE, ADMIT_TYPE, TRANSFER_YN, COHORT, CLASS_LEVEL_RPT_LABEL, ACADEMIC_DEPT, CIP_CATEGORY, MAJOR_1, REG_PRIOR_CUM_GPA) %>% as.data.frame() 
-names(df_datamart21)<- tolower(names(df_datamart21))
-
-
-left_join(df_sss21,datamart21,by.x = "KEY", by.y = "KEY")
-
-
-
-registar21<- read_excel("Registar21Fall.xlsx")
-str(registar21)
-
