@@ -1,40 +1,10 @@
 
-#----------------------setting up-------------------------
-setwd("-/Documents/Rprojects/data/student_satisfaction_survey")
-getwd()
+#============setting up==================
+setwd("~/Documents/Rprojects/student_satisfaction_survey")
 list.files()
+source("data_cleaning_merging.R")  #run code from saved r script
 
-#load package
-library(readxl) #for read_excel
-library(readr) #for read_csv
-library(dplyr) #for select, rename, join, etc.
-library(tidyverse) #for pipes
-library(ggplot2)
-library(stringr) 
-#-------------------------data file prep-------------------------------------------------
-#read data files, initial exploration
-sss21<-read_excel("2021 SSS Raw.xlsx")
-names(sss21)
-#glimpse(sss21$`Invite Custom Field 1`)
-
-#select (and rename) variables to build separate data frames
-sss21.qual<-select(sss21, starts_with("Please explain"))
-names(sss21.qual)
-
-sss21.slct<-sss21 %>% select(`Invite Custom Field 1`, contains(":Please rate")) 
-names(sss21.slct) [1]<-"pc_id"
-names(sss21.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss21.slct))
-names(sss21.slct)
-
-#revert to data frame to make variables and detect values for each variable
-df_sss21<-as.data.frame(sss21.slct)
-str(df_sss21)
-names(df_sss21)
-
-
-
-#=============================descriptive analysis=================================
-#==================================================================================
+#=======descriptive analysis============
 
 #use df_sss21 to go through each item [2-25] 
 

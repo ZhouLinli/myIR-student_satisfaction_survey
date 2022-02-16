@@ -10,82 +10,159 @@ library(readr) #for read_csv
 library(dplyr) #for select, rename, join, etc.
 library(tidyverse) #for pipes
 library(ggplot2)
-#-----------------------------------------------------------------------------
-#read data files, initial exploration
+
+#---------2017 data------------
+#read data
 sss17<-read_excel("2017SSSRaw.xlsx")
+#check
 names(sss17)
 glimpse(sss17$`Invite Custom Field 1`)
-
-#select (and rename) variables to build separate data frames
-    #~~sss17.qual<-select(sss17, starts_with("Please explain"))~~
-    #~~names(sss17.qual)~~
+#select variables
 sss17.slct<-sss17 %>% select(`Invite Custom Field 1`, contains(":Please rate your level of ")) 
-names(sss17.slct) [1]<-"Pid"
+#rename variables
+names(sss17.slct) [1]<-"pc_id"
 names(sss17.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss17.slct))
 names(sss17.slct)
+#select matched variables
+sss17.slct2<- sss17.slct %>% select_if(  names(sss17.slct) %in% names(df_sss21_full) ) %>% as.data.frame()
+names(sss17.slct2)
 
-#revert to data frame to make variables and detect values for each variable
-df_sss17<-as.data.frame(sss17.slct)
-str(df_sss17)
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
-#read data files, initial exploration
+
+#add a suffix
+colnames(sss17.slct2) <- paste(colnames(sss17.slct2), "2017", sep = "_")
+#check
+names(sss17.slct2)
+#remove unnecessary data
+rm(sss17,sss17.slct)
+
+#--------2018 data -----------
+#read data
 sss18<-read_csv("2018SSSRaw.csv")
+#check
 names(sss18)
-#glimpse(sss18$`Invite Custom Field 1`)
+glimpse(sss18$`Invite Custom Field 1`)
 
-#select (and rename) variables to build separate data frames
-#~~sss18.qual<-select(sss18, starts_with("Please explain"))~~
-#~~names(sss18.qual)~~
-sss18.slct<-sss18 %>% select(contains(":Please rate")) 
-#names(sss18.slct) [1]<-"Pid"
+#select variables
+sss18.slct<-sss18 %>% select(`Invite Custom Field 1`, contains(":Please rate")) 
+#rename variables
+names(sss18.slct) [1]<-"pc_id"
 names(sss18.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss18.slct))
+#check
 names(sss18.slct)
 
-#revert to data frame to make variables and detect values for each variable
-df_sss18<-as.data.frame(sss18.slct)
-str(df_sss18)
+#select matched variables
+sss18.slct2<- sss18.slct %>% select_if(  names(sss18.slct) %in% names(df_sss21_full) ) %>% as.data.frame()
+names(sss18.slct2)
 
-#--------------------------------
-#go through each item
-#Bookstore
-#1.as factor
-df_sss17$Bookstore = factor(df_sss17$Bookstore, levels = c('Poor', 'Acceptable', 'Good', 'Excellent','N/A')) 
-is.factor(df_sss17$Bookstore)
-#2.pivot table
-Bookstore17<- df_sss17 %>% 
-  filter(!is.na(`Bookstore`)) %>% 
-  group_by(`Bookstore`) %>% 
-  summarize(cnt = n()) %>%
-  mutate(percentage = sprintf(cnt/sum(cnt)*100, fmt= "%#1.0f%%" )) #'%#.2f' 
-#3.bar plot
-Bookstore17 %>% 
-  ggplot(aes(x = Bookstore, y = percentage)) + 
-  geom_col(fill = "#003057", color ="#ffffff") +
-  theme_classic()+
-  labs(title = "Bookstore Satisfaction (2017)")+
-  theme(plot.title = element_text(color = "#003057", size = 12, hjust = 0.5, face="bold"))+
-  labs(x = "", y = "")+
-  geom_text(aes(label = cnt), vjust = 2, size = 3, color="#ffffff") #vjust=-0.5 lable up
+#add a suffix
+colnames(sss18.slct2) <- paste(colnames(sss18.slct2), "2018", sep = "_")
+names(sss18.slct2)
+#remove unnecessary data
+rm(sss18, sss18.slct)
 
-#registar office
-#go through each item
-#1.as factor
-df_sss17$`Registrar's Office` = factor(df_sss17$`Registrar's Office`, levels = c('Poor', 'Acceptable', 'Good', 'Excellent','N/A')) 
-#2.pivot table
-Registrar17<- df_sss17 %>% 
-  filter(!is.na(`Registrar's Office`)) %>% 
-  group_by(`Registrar's Office`) %>% 
-  summarize(cnt = n()) %>%
-  mutate(percentage = sprintf(cnt/sum(cnt)*100, fmt= "%#1.0f%%" )) #'%#.2f' 
-#3.bar plot
-Registrar17 %>% 
-  ggplot(aes(x = `Registrar's Office`, y = percentage)) + 
-  geom_col(fill = "#003057", color ="#ffffff") +
-  theme_classic()+
-  labs(title = "Registrar's Office Satisfaction (2017)")+
-  theme(plot.title = element_text(color = "#003057", size = 12, hjust = 0.5, face="bold"))+
-  labs(x = "", y = "")+
-  geom_text(aes(label = cnt), vjust = 2, size = 3, color="#ffffff") #vjust=-0.5 lable up
+
+#--------2019 data -----------
+list.files()
+#read data
+sss19<-read_csv("2019SSSRaw.csv")
+#check
+names(sss19)
+glimpse(sss19$`Invite Custom Field 1`)
+
+#select variables
+sss19.slct<-sss19 %>% select(`Invite Custom Field 1`, contains(":Please rate")) 
+#rename variables
+names(sss19.slct) [1]<-"pc_id"
+names(sss19.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss19.slct))
+#check
+names(sss19.slct)
+
+#select matched variables
+sss19.slct2<- sss19.slct %>% select_if(  names(sss19.slct) %in% names(df_sss21_full) ) %>% as.data.frame()
+names(sss19.slct2)
+
+#add a suffix
+colnames(sss19.slct2) <- paste(colnames(sss19.slct2), "2019", sep = "_")
+names(sss19.slct2)
+#remove unnecessary data
+rm(sss19, sss19.slct)
+
+
+#--------2020 data -----------
+list.files()
+#read data
+sss20<-read_csv("2020SSSRaw.csv")
+#check
+names(sss20)
+glimpse(sss20$`Invite Custom Field 1`)
+
+#select variables
+sss20.slct<-sss20 %>% select(`Invite Custom Field 1`, contains(":Please rate")) 
+#rename variables
+names(sss20.slct) [1]<-"pc_id"
+names(sss20.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss20.slct))
+#check
+names(sss20.slct)
+
+#select matched variables
+sss20.slct2<- sss20.slct %>% select_if(  names(sss20.slct) %in% names(df_sss21_full) ) %>% as.data.frame()
+names(sss20.slct2)
+
+#add a suffix
+colnames(sss20.slct2) <- paste(colnames(sss20.slct2), "2020", sep = "_")
+names(sss20.slct2)
+#remove unnecessary data
+rm(sss20, sss20.slct)
+
+#===========merging==============
+#prepare the primary key
+sss17.slct2<- rename(sss17.slct2, pc_id = pc_id_2017)
+sss18.slct2<- rename(sss18.slct2, pc_id = pc_id_2018)
+sss19.slct2<- rename(sss19.slct2, pc_id = pc_id_2019)
+sss20.slct2<- rename(sss20.slct2, pc_id = pc_id_2020)
+
+#check
+names(sss17.slct2)[1]
+names(sss18.slct2)[1]
+names(sss19.slct2)[1]
+names(sss20.slct2)[1]
+
+#merge 17&18
+sss_history<-full_join(sss17.slct2, sss18.slct2, by="pc_id")
+#check
+ncol(sss_history)
+#merge 19
+sss_history<-full_join(sss_history, sss19.slct2, by="pc_id")
+#check
+ncol(sss_history)
+#merge 20
+sss_history<-full_join(sss_history, sss20.slct2, by="pc_id")
+#check
+ncol(sss_history)
+#check all 
+names(sss_history)
+
+#remove unnecessary data frames
+rm(sss20.slct2,sss19.slct2,sss18.slct2,sss17.slct2)
+
+#sort variable names
+df_sss_history <- sss_history %>% 
+  select(sort(tidyselect::peek_vars()))
+#check
+names(df_sss_history)
+#remove used data
+rm(sss_history)
+#save data
+write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
+
+
+
+
+
+
+
+
+
+
 
 
