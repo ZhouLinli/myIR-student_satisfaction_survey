@@ -116,49 +116,44 @@ rm(sss20, sss20.slct)
 
 #===========merging==============
 #prepare the primary key
-sss17.slct2<- rename(sss17.slct2, pc_id = pc_id_2017)
-sss18.slct2<- rename(sss18.slct2, pc_id = pc_id_2018)
-sss19.slct2<- rename(sss19.slct2, pc_id = pc_id_2019)
-sss20.slct2<- rename(sss20.slct2, pc_id = pc_id_2020)
+#sss17.slct2<- rename(sss17.slct2, pc_id = pc_id_2017)
+#sss18.slct2<- rename(sss18.slct2, pc_id = pc_id_2018)
+#sss19.slct2<- rename(sss19.slct2, pc_id = pc_id_2019)
+#sss20.slct2<- rename(sss20.slct2, pc_id = pc_id_2020)
 
 #check
-names(sss17.slct2)[1]
-names(sss18.slct2)[1]
-names(sss19.slct2)[1]
-names(sss20.slct2)[1]
+#names(sss17.slct2)[1]
+#names(sss18.slct2)[1]
+#names(sss19.slct2)[1]
+#names(sss20.slct2)[1]
 
 #merge 17&18
-sss_history<-full_join(sss17.slct2, sss18.slct2, by="pc_id")
+#sss_history<-full_join(sss17.slct2, sss18.slct2, by="pc_id")
 #check
-ncol(sss_history)
+#ncol(sss_history)
 #merge 19
-sss_history<-full_join(sss_history, sss19.slct2, by="pc_id")
+#sss_history<-full_join(sss_history, sss19.slct2, by="pc_id")
 #check
-ncol(sss_history)
+#ncol(sss_history)
 #merge 20
-sss_history<-full_join(sss_history, sss20.slct2, by="pc_id")
+#sss_history<-full_join(sss_history, sss20.slct2, by="pc_id")
 #check
-ncol(sss_history)
+#ncol(sss_history)
 #check all 
-names(sss_history)
+#names(sss_history)
 
 #remove unnecessary data frames
-rm(sss20.slct2,sss19.slct2,sss18.slct2,sss17.slct2)
+#rm(sss20.slct2,sss19.slct2,sss18.slct2,sss17.slct2)
 
 #sort variable names
-df_sss_history <- sss_history %>% 
-  select(sort(tidyselect::peek_vars()))
+#df_sss_history <- sss_history %>% 
+# select(sort(tidyselect::peek_vars()))
 #check
-names(df_sss_history)
+#names(df_sss_history)
 #remove used data
-rm(sss_history)
+#rm(sss_history)
 #save data
 #write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
-
-#save data in one excel
-require(openxlsx)
-list_of_datasets <- list("Name of DataSheet1" = dataframe1, "Name of Datasheet2" = dataframe2)
-write.xlsx(list_of_datasets, file = "writeXLSX2.xlsx")
 
 
 

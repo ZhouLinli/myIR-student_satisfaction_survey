@@ -84,15 +84,20 @@ source("sss_17-20_matched.R")  #run code from saved r script
 
 
 #========save merged main files =====
-write_xlsx(df_sss21_full,"sss21_full.xlsx")
-write_xlsx(sss21.qual,"sss21_qual.xlsx")
-write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
+#write_xlsx(df_sss21_full,"sss21_full.xlsx")
+#write_xlsx(sss21.qual,"sss21_qual.xlsx")
+#write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
 
 #save data in one excel
 require(openxlsx)
-list_of_datasets <- list("data_21quan" = df_sss21_full, "data_21qual" = sss21.qual, "data_hist"=df_sss_history)
+list_of_datasets <- list("data_21quan" = df_sss21_full, "data_21qual" = sss21.qual, "data_17"=sss17.slct2, "data_18"=sss18.slct2, "data_19"=sss19.slct2, "data_20"=sss20.slct2)
 write.xlsx(list_of_datasets, file = "fulldata.xlsx")
 
 #check
 list.files()
-read_excel("fulldata.xlsx")
+read_excel("fulldata.xlsx", sheet = "data_21quan")
+read_excel("fulldata.xlsx", sheet = "data_21qual")
+read_excel("fulldata.xlsx", sheet = "data_17")
+read_excel("fulldata.xlsx", sheet = "data_18")
+read_excel("fulldata.xlsx", sheet = "data_19")
+read_excel("fulldata.xlsx", sheet = "data_20")
