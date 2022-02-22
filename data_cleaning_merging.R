@@ -78,11 +78,21 @@ rm(datamart21, df_datamart21, reg21, df_reg21, df_sss21)
 
 
 #========merge historical data========
-
-
-
+setwd("~/Documents/Rprojects/student_satisfaction_survey")
+list.files()
+source("sss_17-20_matched.R")  #run code from saved r script
 
 
 #========save merged main files =====
 write_xlsx(df_sss21_full,"sss21_full.xlsx")
 write_xlsx(sss21.qual,"sss21_qual.xlsx")
+write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
+
+#save data in one excel
+require(openxlsx)
+list_of_datasets <- list("data_21quan" = df_sss21_full, "data_21qual" = sss21.qual, "data_hist"=df_sss_history)
+write.xlsx(list_of_datasets, file = "fulldata.xlsx")
+
+#check
+list.files()
+read_excel("fulldata.xlsx")

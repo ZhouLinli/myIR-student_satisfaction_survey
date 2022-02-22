@@ -153,7 +153,12 @@ names(df_sss_history)
 #remove used data
 rm(sss_history)
 #save data
-write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
+#write_xlsx(df_sss_history,"sss17-20_matched.xlsx")
+
+#save data in one excel
+require(openxlsx)
+list_of_datasets <- list("Name of DataSheet1" = dataframe1, "Name of Datasheet2" = dataframe2)
+write.xlsx(list_of_datasets, file = "writeXLSX2.xlsx")
 
 
 
