@@ -21,15 +21,18 @@ sss21<-read_excel("2021 SSS Raw.xlsx")
 names(sss21)
 #glimpse(sss21$`Invite Custom Field 1`)
 #select (and rename) variables to build separate data frames
+#
 
 #create the main data file (qualitative)
-sss21.qual<-select(sss21, starts_with("Please explain"))
+sss21.qual<-select(sss21, starts_with("Please explain"), starts_with("Please provide explanations"), starts_with("Please provide any additional details"), names(sss21)[153])
 names(sss21.qual)
 
 #select variables to create the main quantitative data file
-sss21.slct<-sss21 %>% select(`Invite Custom Field 1`, contains(":Please rate")) 
+sss21.slct<-sss21 %>% select(`Invite Custom Field 1`,  `Which of the following describes your status for the 2021 fall semester?`, contains(":Please rate"), contains(":Â Please rate"), contains(":If it applies to you, please rate"), contains(":Â   Please estimate"), names(sss21)[138:152]) 
 names(sss21.slct) [1]<-"pc_id"
 names(sss21.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss21.slct))
+names(sss21.slct) [57]<-"Other_use_computer"
+names(sss21.slct) [59]<-"Other_access_textbook"
 names(sss21.slct)
 
 #revert to data frame to make variables and detect values for each variable
@@ -42,6 +45,8 @@ rm(sss21)
 
 
 #======merge 2021 student background data========
+#check primary key
+df_sss21 %>% group_by(pc_id) %>% summarise(n_per_key=n()) %>% ungroup %>% count(n_per_key)
 
 #-----------datamart file-----------------------
 #read file
@@ -52,7 +57,7 @@ df_datamart21 <- datamart21 %>% select (PC_ID, GENDER_CODE, ETHNICITY_REPORT_DES
 names(df_datamart21)<- tolower(names(df_datamart21))
 
 # merge with data mart 
-df_sss21_full<-left_join(df_sss21,df_datamart21,by.x = "pc_id", by.y = "pc_id")
+df_sss21_full<-left_join(df_sss21,df_datamart21,by = "pc_id")
 #check
 ncol(df_sss21_full)
 ncol(df_sss21)
