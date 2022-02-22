@@ -39,6 +39,7 @@ names(sss21.slct)
 df_sss21<-as.data.frame(sss21.slct)
 str(df_sss21)
 names(df_sss21)
+ncol(df_sss21)
 
 rm(sss21.slct)
 rm(sss21)
@@ -106,3 +107,5 @@ read_excel("fulldata.xlsx", sheet = "data_17")
 read_excel("fulldata.xlsx", sheet = "data_18")
 read_excel("fulldata.xlsx", sheet = "data_19")
 read_excel("fulldata.xlsx", sheet = "data_20")
+
+ncol(df_sss21_full)
