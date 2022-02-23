@@ -31,15 +31,15 @@ names(sss21.qual)
 sss21.slct<-sss21 %>% select(`Invite Custom Field 1`,  `Which of the following describes your status for the 2021 fall semester?`, contains(":Please rate"), contains(":Â Please rate"), contains(":If it applies to you, please rate"), contains(":Â   Please estimate"), names(sss21)[126:137], names(sss21)[81:87], names(sss21)[138:152]) 
 
 
-#check what are selected
+#check what are selected***
 names(sss21) %in% c(names(sss21.slct), names(sss21.qual)) 
-#names(sss21)[81:87]%in% c(names(sss21.slct), names(sss21.qual)) #for false output, investigate and add back to select for sss21.slct
+#names(sss21)[81:87]%in% c(names(sss21.slct), names(sss21.qual)) #for false output, investigate and add back to select for sss21.slct***
 #names(sss21)[126:137]%in% c(names(sss21.slct), names(sss21.qual)) #same as above
 
 #rename/clean raw column names
 names(sss21.slct) [1]<-"pc_id"
 names(sss21.slct)<- gsub(":[A-Za-z]*.*$", "", names(sss21.slct))
-#unique names for each column
+#unique names for each column***
 names(sss21.slct)[51]<-"hours_work_oncampus"
 names(sss21.slct)[53]<-"hours_work_offcampus"
 names(sss21.slct)[55]<-"hours_study"
@@ -51,18 +51,16 @@ names(sss21.slct) [78]<-"Other_access_textbook"
 
 names(sss21.slct)
 
+
 #revert to data frame to make variables and detect values for each variable
 df_sss21<-as.data.frame(sss21.slct)
 str(df_sss21)
 names(df_sss21)
 rm(sss21.slct)
 
-#check if all raw data variables are reflected in newly created data frames
+#check if all raw data variables are reflected in newly created data frames***
 ncol(df_sss21) + ncol(sss21.qual) 
 ncol(sss21)-length(names(sss21)[1:52])
-
-
-
 
 
 
@@ -111,6 +109,21 @@ list.files()
 source("sss_17-20_matched.R")  #run code from saved r script
 
 
+#========edit merged data========
+#mutate new variables
+names(df_sss21_full)
+df_sss21_full$`What is your sexual orientation?Definition`
+df_sss21_full<- df_sss21_full %>% 
+  mutate(sum_gender=recode(
+    `What is your sexual orientation?Definition`,
+    "Bisexual"="LGBTQ+",
+    "Lesbian"="LGBTQ+",
+    "Gay"="LGBTQ+",
+    "Prefer to self-describe, e.g., Questioning, Queer or Pansexual (Please specify):"="LGBTQ+"
+  ))
+#check if recoded variable looks right***
+df_sss21_full$sum_gender
+
 #========save merged main files =====
 #write_xlsx(df_sss21_full,"sss21_full.xlsx")
 #write_xlsx(sss21.qual,"sss21_qual.xlsx")
@@ -133,12 +146,3 @@ read_excel("fulldata.xlsx", sheet = "data_20")
 ncol(df_sss21_full)
 names(df_sss21_full)
 
-#mutate new variables
-df_sss21_full<- df_sss21_full %>% 
-  mutate(sum_gender<-recode(
-    `What is your gender identity?Definition`,
-    "Bisexual"="LGBTQ+",
-    "Lesbian"="LGBTQ+",
-    "Gay"="LGBTQ+",
-    "Prefer to self-describe, e.g., Questioning, Queer or Pansexual (Please specify):"="LGBTQ+"
-                            ))
