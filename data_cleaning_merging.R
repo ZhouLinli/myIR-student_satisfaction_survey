@@ -131,3 +131,14 @@ read_excel("fulldata.xlsx", sheet = "data_19")
 read_excel("fulldata.xlsx", sheet = "data_20")
 
 ncol(df_sss21_full)
+names(df_sss21_full)
+
+#mutate new variables
+df_sss21_full<- df_sss21_full %>% 
+  mutate(sum_gender<-recode(
+    `What is your gender identity?Definition`,
+    "Bisexual"="LGBTQ+",
+    "Lesbian"="LGBTQ+",
+    "Gay"="LGBTQ+",
+    "Prefer to self-describe, e.g., Questioning, Queer or Pansexual (Please specify):"="LGBTQ+"
+                            ))
